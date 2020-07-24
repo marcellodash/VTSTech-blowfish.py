@@ -1,7 +1,7 @@
 import sys, os, string, blowfish
 from os import urandom
 
-build="0.1-ALPHA r2"
+build="0.1-ALPHA r3"
 verbose=0
 encrypt=0
 
@@ -59,22 +59,39 @@ if (verbose == 1) & (totalargs > 1):
 	print("Input File:", str(infile))
 	print("Output File:", str(outfile))
 
-if (mode == "ebc"):
-	with open(infile, mode='rb') as file: # b is important -> binary
-	    fileContent = file.read()
-	data = fileContent	
-	#data = urandom(10 * 8) # data to encrypt
+if (mode == "ecb"):
+	if (encrypt == 1):
+		with open(infile, mode='rb') as file: # b is important -> binary
+		    fileContent = file.read()
+		data = fileContent	
+		#data = urandom(10 * 8) # data to encrypt
 
-	data_encrypted = data
-	#data_encrypted = b"".join(cipher.encrypt_ecb(data))
-	data_decrypted = b"".join(cipher.decrypt_ecb(data_encrypted))
+		#data_encrypted = data
+		data_encrypted = b"".join(cipher.encrypt_ecb(data))
+		#data_decrypted = b"".join(cipher.decrypt_ecb(data_encrypted))
 
-	assert data == data_decrypted
-	newFile = open(outfile, "wb")
-	# write to file
-	for byte in data_decrypted:
-	    newFile.write(byte.to_bytes(1, byteorder='big'))
-	#print("Decrypted:", str(data_decrypted))
+		#assert data == data_decrypted
+		newFile = open(outfile, "wb")
+		# write to file
+		for byte in data_encrypted:
+		    newFile.write(byte.to_bytes(1, byteorder='big'))
+		#print("Decrypted:", str(data_decrypted))
+	else:
+		with open(infile, mode='rb') as file: # b is important -> binary
+		    fileContent = file.read()
+		data = fileContent	
+		#data = urandom(10 * 8) # data to encrypt
+
+		data_encrypted = data
+		#data_encrypted = b"".join(cipher.encrypt_ecb(data))
+		data_decrypted = b"".join(cipher.decrypt_ecb(data_encrypted))
+
+		#assert data == data_decrypted
+		newFile = open(outfile, "wb")
+		# write to file
+		for byte in data_decrypted:
+		    newFile.write(byte.to_bytes(1, byteorder='big'))
+		#print("Decrypted:", str(data_decrypted))
 elif (mode == "ecb-cts"):
 	if (encrypt == 1):
 		with open(infile, mode='rb') as file: # b is important -> binary
@@ -109,19 +126,37 @@ elif (mode == "ecb-cts"):
 		    newFile.write(byte.to_bytes(1, byteorder='big'))
 		#print("Decrypted:", str(data_decrypted))
 elif (mode == "cfb"):
-	with open(infile, mode='rb') as file: # b is important -> binary
-	    fileContent = file.read()
-	#data = urandom(10 * 8 + 7) # data to encrypt
-	data = fileContent
-	iv = urandom(8) # initialization vector
+	if (encrypt == 1):
+		with open(infile, mode='rb') as file: # b is important -> binary
+		    fileContent = file.read()
+		#data = urandom(10 * 8 + 7) # data to encrypt
+		data = fileContent
+		iv = urandom(8) # initialization vector
 
-	data_encrypted = data
-	#data_encrypted = b"".join(cipher.encrypt_cfb(data, iv))
-	data_decrypted = b"".join(cipher.decrypt_cfb(data_encrypted, iv))
+		#data_encrypted = data
+		data_encrypted = b"".join(cipher.encrypt_cfb(data, iv))
+		#data_decrypted = b"".join(cipher.decrypt_cfb(data_encrypted, iv))
 
-	assert data == data_decrypted
-	newFile = open(outfile, "wb")
-	# write to file
-	for byte in data_decrypted:
-	    newFile.write(byte.to_bytes(1, byteorder='big'))
-	#print("Decrypted:", str(data_decrypted))
+		assert data == data_decrypted
+		newFile = open(outfile, "wb")
+		# write to file
+		for byte in data_encrypted:
+		    newFile.write(byte.to_bytes(1, byteorder='big'))
+		#print("Decrypted:", str(data_decrypted))
+	else:
+		with open(infile, mode='rb') as file: # b is important -> binary
+		    fileContent = file.read()
+		#data = urandom(10 * 8 + 7) # data to encrypt
+		data = fileContent
+		iv = urandom(8) # initialization vector
+
+		data_encrypted = data
+		#data_encrypted = b"".join(cipher.encrypt_cfb(data, iv))
+		data_decrypted = b"".join(cipher.decrypt_cfb(data_encrypted, iv))
+
+		#assert data == data_decrypted
+		newFile = open(outfile, "wb")
+		# write to file
+		for byte in data_decrypted:
+		    newFile.write(byte.to_bytes(1, byteorder='big'))
+		#print("Decrypted:", str(data_decrypted))
