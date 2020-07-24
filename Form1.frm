@@ -174,7 +174,7 @@ End Sub
 
 Private Sub Form_Load()
 Set FSO = CreateObject("Scripting.FileSystemObject")
-Build = "0.1-r2"
+Build = "0.1-r3"
 Form1.Caption = "VTSTech-blowfish GUI v" & Build
 Combo1.AddItem "ECB"
 Combo1.AddItem "ECB-CTS"
