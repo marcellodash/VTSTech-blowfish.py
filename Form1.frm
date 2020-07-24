@@ -167,18 +167,25 @@ infile = Text1.Text
 outfile = Text2.Text
 
 
-cmdline = "cmd.exe /c " & VB.App.Path & "\VTSTech-blowfish.py -c " & Chr(34) & cipher & Chr(34) & action & " -" & LCase(mode) & " -i " & infile & " -o " & outfile
+cmdline = "cmd.exe /c " & Chr(34) & Chr(34) & VB.App.Path & "\VTSTech-blowfish.py" & Chr(34) & " -c " & Chr(34) & cipher & Chr(34) & action & " -" & LCase(mode) & " -i " & Chr(34) & infile & Chr(34) & " -o " & Chr(34) & outfile & Chr(34) & Chr(34)
 Shell (cmdline), vbHide
 'MsgBox (cmdline)
 End Sub
 
 Private Sub Form_Load()
-Build = "0.1-r1"
+Set FSO = CreateObject("Scripting.FileSystemObject")
+Build = "0.1-r2"
 Form1.Caption = "VTSTech-blowfish GUI v" & Build
 Combo1.AddItem "ECB"
 Combo1.AddItem "ECB-CTS"
 Combo1.AddItem "CFB"
 Check1.Value = False
+If FSO.FileExists(VB.App.Path & "\key.txt") = True Then
+    Open VB.App.Path & "\key.txt" For Input As #1
+    Line Input #1, cipher
+    Text3.Text = cipher
+    Close #1
+End If
 End Sub
 
 Private Sub Label3_Click()

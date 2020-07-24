@@ -1,24 +1,28 @@
 import sys, os, string, blowfish
 from os import urandom
 
-build="0.1-ALPHA r1"
+build="0.1-ALPHA r2"
 verbose=0
 encrypt=0
 
 def banner():
-	print("VTSTech-blowfish v"+build+"\nWritten by VTSTech (www.VTS-Tech.org)\nBTC: 1ByfBujg9bnmk1XXY2rxY6obhqHMUNiDuP\n")
+	print("VTSTech-blowfish v"+build+"\nWritten by VTSTech (www.VTS-Tech.org)\nGitHub: https://github.com/Veritas83/VTSTech-blowfish.py\nBTC: 1ByfBujg9bnmk1XXY2rxY6obhqHMUNiDuP\n")
 def usage():
 	print("Usage:")
 	print("-v verbose mode")
 	print("-ecb Electronic Codebook Mode (ECB)")
 	print("-ecb-cts Electronic Codebook Mode with Cipher Text Stealing (ECB-CTS)")
 	print("-cfb Cipher Feedback Mode (CFB)")
-	print("-e encrypt mode\n")
+	print("-e encrypt mode")
 	print("-i c:\\path\\to\\input\\file")
 	print("-o c:\\path\\to\\output\\file")
 	print("-c cipher_key\n")
 
 totalargs = len(sys.argv)
+cipher_txt=""
+mode=""
+infile=""
+outfile=""
 for x in range(0,totalargs,1):
 	if (totalargs >= 11):	
 		banner()
@@ -45,7 +49,7 @@ for x in range(0,totalargs,1):
 	elif (sys.argv[x] == "-o"):
 		outfile=sys.argv[x+1]
 
-if (verbose == 1):
+if (verbose == 1) & (totalargs > 1):
 	print("Cipher:", cipher_txt)
 	print("Mode:", mode.upper())
 	if (encrypt==1):
